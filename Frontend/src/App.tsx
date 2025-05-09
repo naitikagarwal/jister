@@ -3,16 +3,18 @@ import { Routes, Route } from 'react-router-dom'
 // import Dashboard from './Dashboard'
 import { ProtectedRoute } from './ProtectedRoute'
 import AuthPage from './pages/auth'
+// import Problem from './pages/problem'
+import Problems from './pages/problem'
 
 function App() {
   return (
     <Routes>
       <Route path="/auth" element={<AuthPage />} />
       <Route
-        path="/dashboard"
+        path="/problemset"
         element={
           <ProtectedRoute>
-            <>HI</>
+            <Problems/>
           </ProtectedRoute>
         }
       />
