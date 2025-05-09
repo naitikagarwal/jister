@@ -1,13 +1,14 @@
 import { supabase } from '@/lib/supabase';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 import { Loader2 } from "lucide-react"
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 export default function AuthPage() {
+  const [searchParams] = useSearchParams()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
@@ -15,6 +16,11 @@ export default function AuthPage() {
   const [error, setError] = useState<string | null>(null);
 //   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const mode = searchParams.get('mode')
+    setIsSignup(mode === 'signup')
+  }, [searchParams])
   
   
   const navigate = useNavigate()
@@ -73,7 +79,7 @@ export default function AuthPage() {
             })
             .eq('email', email)
   
-            navigate('/dashboard')
+            navigate('/problemset')
       }
     } catch (err) {
         setError(err instanceof Error ? err.message : 'An unknown error occurred')
