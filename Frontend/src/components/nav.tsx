@@ -80,7 +80,7 @@ export default function Navbar() {
                     <NavigationMenuLink 
                       className="text-sm font-medium text-gray-900 px-3 py-2 hover:bg-gray-100 rounded-md group"
                     >
-                      <div className="flex items-center border-b-2 border-yellow-500 pb-1 px-1">
+                      <div className="flex items-center border-b-2 border-yellow-500 pb-1 px-1 cursor-pointer" onClick={() => navigate('/problemset')}>
                         Problems
                       </div>
                     </NavigationMenuLink>
@@ -160,10 +160,10 @@ export default function Navbar() {
             </DropdownMenu>
           ) : (
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => navigate('/auth?mode=login')}>
+              <Button variant="outline" className="cursor-pointer" onClick={() => navigate('/auth?mode=login')}>
                 Login
               </Button>
-              <Button onClick={() => navigate('/auth?mode=signup')}>
+              <Button className="cursor-pointer" onClick={() => navigate('/auth?mode=signup')}>
                 Sign Up
               </Button>
             </div>
@@ -208,7 +208,7 @@ export default function Navbar() {
                     </div>
                     
                     <div className="space-y-1">
-                      <Button variant="ghost" className="w-full justify-start pl-2 font-medium text-yellow-600 bg-yellow-50 hover:bg-yellow-100">
+                      <Button variant="ghost" className="w-full justify-start pl-2 font-medium text-yellow-600 bg-yellow-50 hover:bg-yellow-100 cursor-pointer" onClick={() => navigate('/problemset')}>
                         Problems
                       </Button>
                       <div className="relative">

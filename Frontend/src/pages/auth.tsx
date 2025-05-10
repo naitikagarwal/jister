@@ -4,16 +4,18 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 import { Loader2 } from "lucide-react"
-
+import { Eye, EyeOff } from 'lucide-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { toast, Toaster } from 'sonner';
 
 export default function AuthPage() {
+  const [showPassword, setShowPassword] = useState(false)
   const [searchParams] = useSearchParams()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [isSignup, setIsSignup] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // const [error, setError] = useState<string | null>(null);
 //   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,7 +30,7 @@ export default function AuthPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError(null)
+    // setError(null)
     // setMessage('');
 
     try {
@@ -63,8 +65,7 @@ export default function AuthPage() {
             }])
   
           if (userError) throw userError
-  
-          alert('Signup successful!')
+          toast.success('Signup successful!')
       } else {
         // Login logic
         const { error } = await supabase.auth.signInWithPassword({
@@ -72,7 +73,11 @@ export default function AuthPage() {
             password
           })
   
-          if (error) throw error
+          if (error) {
+            // throw error
+            toast.error(error.message)
+            return
+          }
   
           // Update last active time
           await supabase
@@ -83,11 +88,16 @@ export default function AuthPage() {
               }
             })
             .eq('email', email)
-  
-            navigate('/problemset')
+            toast.success('Login successful!')
+            setTimeout(() => navigate('/problemset'), 500)
+            
       }
-    } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unknown error occurred')
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message)
+      } else {
+        toast.error('An unexpected error occurred')
+      }
     } finally {
       setIsLoading(false);
     }
@@ -95,6 +105,7 @@ export default function AuthPage() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
+      <Toaster richColors />
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader className="space-y-1">
           <h2 className="text-2xl font-bold text-center">{isSignup ? 'Create an Account' : 'Welcome Back'}</h2>
@@ -132,15 +143,25 @@ export default function AuthPage() {
             </div>
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium">Password</label>
-              <Input
+              <div className="relative">
+                <Input
                 id="password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="w-full"
               />
+              <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-500 cursor-pointer"
+              >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+              </div>
+              
             </div>
             <Button 
               type="submit" 
@@ -157,11 +178,6 @@ export default function AuthPage() {
               )}
             </Button>
           </form>
-          {error && (
-            <div className={`mt-4 p-3 rounded-md ${error.includes('successful') ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-              {error}
-            </div>
-          )}
         </CardContent>
         <CardFooter className="flex justify-center border-t p-4">
           <p className="text-sm text-gray-600">
@@ -170,9 +186,9 @@ export default function AuthPage() {
               variant="link" 
               onClick={() => {
                 setIsSignup(!isSignup);
-                setError('');
+                // setError('');
               }} 
-              className="p-0 font-semibold"
+              className="p-0 font-semibold cursor-pointer"
             >
               {isSignup ? 'Login' : 'Sign Up'}
             </Button>
