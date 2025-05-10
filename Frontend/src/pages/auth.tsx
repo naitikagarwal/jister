@@ -11,7 +11,7 @@ export default function AuthPage() {
   const [searchParams] = useSearchParams()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [isSignup, setIsSignup] = useState(false);
   const [error, setError] = useState<string | null>(null);
 //   const [message, setMessage] = useState('');
@@ -36,7 +36,12 @@ export default function AuthPage() {
         // Sign Up
         const { data: authData, error: authError } = await supabase.auth.signUp({
             email,
-            password
+            password,
+            options: {
+              data: {
+                name: name  // this will be stored in user_metadata
+              }
+            }
           })
   
           if (authError) throw authError
@@ -46,7 +51,7 @@ export default function AuthPage() {
             .from('users')
             .insert([{
               email,
-              username,
+              name,
               stats: {
                 attempted: [],
                 correct: 0,
@@ -99,15 +104,15 @@ export default function AuthPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {isSignup && (
+          {isSignup && (
               <div className="space-y-2">
-                <label htmlFor="username" className="text-sm font-medium">Username</label>
+                <label htmlFor="name" className="text-sm font-medium">Name</label>
                 <Input
-                  id="username"
+                  id="name"
                   type="text"
-                  placeholder="Enter your username"
-                  value={username} 
-                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Enter your name"
+                  value={name} 
+                  onChange={(e) => setName(e.target.value)}
                   required
                   className="w-full"
                 />

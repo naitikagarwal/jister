@@ -135,7 +135,7 @@ export default function Navbar() {
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={user.user_metadata?.avatar_url} alt={user.email} />
                     <AvatarFallback>
-                      {user.email?.charAt(0).toUpperCase()}
+                      {user.user_metadata.name?.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                 </Button>
@@ -144,7 +144,7 @@ export default function Navbar() {
                 <DropdownMenuItem className="flex flex-col items-start">
                   <div className="text-sm font-medium">{user.email}</div>
                   <div className="text-xs text-muted-foreground">
-                    {user.user_metadata?.full_name || 'JEE Aspirant'}
+                    {user.user_metadata?.name || 'JEE Aspirant'}
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate('/dashboard')}>
@@ -195,7 +195,7 @@ export default function Navbar() {
                       </Avatar>
                       <div className="text-sm font-medium">{user.email}</div>
                       <div className="text-xs text-muted-foreground">
-                        {user.user_metadata?.full_name || 'JEE Aspirant'}
+                        {user.user_metadata?.name || 'JEE Aspirant'}
                       </div>
                       </div>
                       ):(
