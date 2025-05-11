@@ -7,6 +7,7 @@ import AuthPage from './pages/auth'
 import Problems from './pages/problem'
 import Navbar from './components/nav'
 import HomePage from './pages/home'
+import ProblemDetail from './pages/problemdetails'
 function App() {
   return (
     <div>
@@ -22,6 +23,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="/problem/:id" element={<ProblemDetail />} />
     </Routes>
     </div>
   )

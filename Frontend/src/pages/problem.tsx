@@ -27,6 +27,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/AuthProvider'
+import { useNavigate } from 'react-router-dom'
 
 type Question = {
   id: string
@@ -44,6 +45,7 @@ type Question = {
 
 export default function Problems() {
   const { session } = useAuth()
+  const navigate = useNavigate()
   const [questions, setQuestions] = useState<Question[]>([])
   const [filteredQuestions, setFilteredQuestions] = useState<Question[]>([])
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null)
@@ -272,14 +274,14 @@ export default function Problems() {
                 <h3 className="text-lg font-medium">Question:</h3>
                 <p>{selectedQuestion.question}</p>
                 
-                <h3 className="text-lg font-medium mt-4">Options:</h3>
+                {/* <h3 className="text-lg font-medium mt-4">Options:</h3>
                 <ul className="space-y-2">
                   {Object.entries(selectedQuestion.options).map(([key, value]) => (
                     <li key={key}>
                       <strong>{key}.</strong> {value}
                     </li>
                   ))}
-                </ul>
+                </ul> */}
               </div>
               
               <div className="flex gap-2 pt-4">
@@ -292,19 +294,11 @@ export default function Problems() {
                   Copy Question
                 </Button>
                 
-                {!attemptedIds.includes(selectedQuestion.id) && (
                   <Button
-                    onClick={() => handleAttemptQuestion(selectedQuestion.id)}
+                    onClick={() => navigate(`/problem/${selectedQuestion.id}`)}
                   >
-                    Mark as Attempted
+                    Attempt
                   </Button>
-                )}
-                
-                {attemptedIds.includes(selectedQuestion.id) && (
-                  <Button variant="secondary" disabled>
-                    Already Attempted
-                  </Button>
-                )}
               </div>
               
               {selectedQuestion.solution && (
