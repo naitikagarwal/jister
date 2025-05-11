@@ -65,7 +65,7 @@ export default function ProblemDetail() {
     fetchQuestion()
   }, [id])
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!selectedOption) {
       toast.error('Please select an answer')
       return
@@ -75,14 +75,28 @@ export default function ProblemDetail() {
     setTimerActive(false)
 
     // Update user stats in the users table
-    if (question) {
-      supabase.rpc('update_user_stats', {
-        user_email: session?.user.email,
-        question_id: question.id,
-        is_correct: selectedOption === question.correct_answer,
-        time_taken: timeElapsed
-      })
-    }
+    // if (question) {
+    //   supabase.rpc('update_user_stats', {
+    //     user_email: session?.user.email,
+    //     question_id: question.id,
+    //     is_correct: selectedOption === question.correct_answer,
+    //     time_taken: timeElapsed
+    //   })
+    // }
+    try {
+        // Update user's attempted questions
+        const { data, error } = await supabase.rpc('update_user_stats', {
+                user_email: session?.user.email,
+                question_id: question.id,
+                is_correct: selectedOption === question.correct_answer,
+                time_taken: timeElapsed
+        })
+  
+        if (error) throw error
+      } catch (error) {
+        console.error('Error updating attempt:', error)
+      }
+    
 
     // Show feedback
     const isCorrect = selectedOption === question?.correct_answer
