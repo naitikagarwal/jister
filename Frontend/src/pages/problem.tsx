@@ -146,8 +146,8 @@ export default function Problems() {
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="flex flex-col md:flex-row gap-4 mb-6">
+    <div className="container mx-auto py-8 ">
+      <div className="flex flex-col md:flex-row gap-4 mb-6 mx-2">
         <Input
           placeholder="Search questions..."
           value={filters.search}
@@ -187,7 +187,7 @@ export default function Problems() {
         </Select>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-md border mx-2">
         <Table>
           <TableHeader>
             <TableRow>
@@ -205,8 +205,8 @@ export default function Problems() {
                   key={question.id}
                   className={
                     attemptedIds.includes(question.id) 
-                      ? 'bg-green-100 hover:bg-green-100' 
-                      : 'hover:bg-gray-50'
+                      ? 'bg-green-100 hover:bg-green-50 cursor-pointer' 
+                      : 'hover:bg-gray-50 cursor-pointer'
                   }
                   onClick={() => {
                     setSelectedQuestion(question)

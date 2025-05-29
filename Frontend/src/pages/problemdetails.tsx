@@ -189,7 +189,7 @@ const handleSubmit = async () => {
   return (
     <div className="container mx-auto py-8 max-w-3xl">
       <Toaster richColors />
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 mx-2">
         <div className="flex items-center gap-2">
           <Icons.clock className="h-5 w-5" />
           <span className="font-mono">{formatTime(timeElapsed)}</span>
