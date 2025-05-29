@@ -66,6 +66,7 @@ export default function AuthPage() {
   
           if (userError) throw userError
           toast.success('Signup successful!')
+          setTimeout(() => navigate('/problemset'), 500)
       } else {
         // Login logic
         const { error } = await supabase.auth.signInWithPassword({
