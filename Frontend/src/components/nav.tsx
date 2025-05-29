@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 // import { supabase } from '@/lib/supabaseClient'
 
-import { User, Menu, ChevronDown } from 'lucide-react';
+import { User, Menu} from 'lucide-react';
 import { useNavigate } from 'react-router-dom'
 import { Button } from './ui/button'
 import {
@@ -12,11 +12,9 @@ import {
 } from './ui/dropdown-menu'
 import {
     NavigationMenu,
-    NavigationMenuContent,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-    NavigationMenuTrigger,
   } from '@/components/ui/navigation-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';

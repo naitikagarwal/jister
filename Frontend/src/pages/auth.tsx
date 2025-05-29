@@ -80,15 +80,7 @@ export default function AuthPage() {
             return
           }
   
-          // Update last active time
-          await supabase
-            .from('users')
-            .update({
-              stats: {
-                last_active: new Date().toISOString()
-              }
-            })
-            .eq('email', email)
+          
             toast.success('Login successful!')
             setTimeout(() => navigate('/problemset'), 500)
             

@@ -205,7 +205,7 @@ export default function Problems() {
                   key={question.id}
                   className={
                     attemptedIds.includes(question.id) 
-                      ? 'bg-green-50 hover:bg-green-100' 
+                      ? 'bg-green-100 hover:bg-green-100' 
                       : 'hover:bg-gray-50'
                   }
                   onClick={() => {

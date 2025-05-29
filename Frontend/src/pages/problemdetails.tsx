@@ -65,51 +65,97 @@ export default function ProblemDetail() {
     fetchQuestion()
   }, [id])
 
-  const handleSubmit = async () => {
-    if (!selectedOption) {
-      toast.error('Please select an answer')
-      return
-    }
-
-    setSubmitted(true)
-    setTimerActive(false)
-
-    // Update user stats in the users table
-    // if (question) {
-    //   supabase.rpc('update_user_stats', {
-    //     user_email: session?.user.email,
-    //     question_id: question.id,
-    //     is_correct: selectedOption === question.correct_answer,
-    //     time_taken: timeElapsed
-    //   })
-    // }
-    try {
-        // Update user's attempted questions
-        const {error } = await supabase.rpc('update_user_stats', {
-                user_email: session?.user.email,
-                question_id: question.id,
-                is_correct: selectedOption === question.correct_answer,
-                time_taken: timeElapsed
-        })
-  
-        if (error) throw error
-      } catch (error) {
-        console.error('Error updating attempt:', error)
-      }
-    
-
-    // Show feedback
-    const isCorrect = selectedOption === question?.correct_answer
-    // toast.success(isCorrect ? 'Correct!' : 'Incorrect')
-    toast(isCorrect ? 'Great job! You answered correctly.' : `The correct answer is ${question?.correct_answer}`)
-    // toast({
-    //   title: isCorrect ? 'Correct!' : 'Incorrect',
-    //   description: isCorrect 
-    //     ? 'Great job! You answered correctly.'
-    //     : `The correct answer is ${question?.correct_answer}`,
-    //   variant: isCorrect ? 'default' : 'destructive',
-    // })
+const handleSubmit = async () => {
+  if (!selectedOption) {
+    toast.error('Please select an answer');
+    return;
   }
+  setSubmitted(true);
+  setTimerActive(false);
+  if (!question || !session?.user?.email) return;
+  
+  try {
+    const isCorrect = selectedOption === question.correct_answer;
+    const today = new Date().toISOString().split('T')[0];
+    
+    // First, try to get existing user data
+    const { data: existingUser, error: fetchError } = await supabase
+      .from('users')
+      .select('stats')
+      .eq('email', session.user.email)
+      .maybeSingle(); // Use maybeSingle() instead of single() to avoid errors when no record exists
+    
+    if (fetchError) {
+      console.error('Fetch error:', fetchError);
+      throw fetchError;
+    }
+    
+    const currentStats = existingUser?.stats || {
+      attempted: [],
+      correct: 0,
+      incorrect: 0,
+      bookmarked: [],
+      active_days: [],
+      last_active: null
+    };
+    
+    // Update stats
+    const updatedStats = {
+      ...currentStats,
+      attempted: currentStats.attempted.includes(question.id)
+        ? currentStats.attempted
+        : [...currentStats.attempted, question.id],
+      correct: isCorrect ? currentStats.correct + 1 : currentStats.correct,
+      incorrect: !isCorrect ? currentStats.incorrect + 1 : currentStats.incorrect,
+      last_active: new Date().toISOString(),
+      active_days: currentStats.active_days.includes(today)
+        ? currentStats.active_days
+        : [...currentStats.active_days, today]
+    };
+    
+    // Use upsert to handle both insert and update cases
+    const { error: upsertError } = await supabase
+      .from('users')
+      .upsert([{
+        email: session.user.email,
+        stats: updatedStats
+      }], {
+        onConflict: 'email',
+        ignoreDuplicates: false
+      });
+    
+    if (upsertError) {
+      console.error('Upsert error:', upsertError);
+      
+      // Handle specific RLS errors
+      if (upsertError.code === '42501') {
+        toast.error('Authentication error. Please try logging out and back in.');
+        return;
+      }
+      
+      throw upsertError;
+    }
+    
+    // Show feedback
+    toast(
+      isCorrect 
+        ? 'Great job! You answered correctly.' 
+        : `The correct answer is ${question.correct_answer}`
+    );
+    
+  } catch (error) {
+    console.error('Error updating user stats:', error);
+    
+    // More specific error messages
+    if (typeof error === 'object' && error !== null && 'code' in error && (error as any).code === '42501') {
+      toast.error('Permission denied. Please check your login status.');
+    } else if (typeof error === 'object' && error !== null && 'message' in error && (error as any).message?.includes('JWT')) {
+      toast.error('Session expired. Please log in again.');
+    } else {
+      toast.error('Failed to save your progress. Please try again.');
+    }
+  }
+};
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
