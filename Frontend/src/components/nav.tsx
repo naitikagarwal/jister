@@ -150,7 +150,7 @@ export default function Navbar() {
                 <DropdownMenuItem onClick={() => navigate('/dashboard')}>
                   Dashboard
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate('/problems')}>
+                <DropdownMenuItem onClick={() => navigate('/problemset')}>
                   Problems
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleLogout}>

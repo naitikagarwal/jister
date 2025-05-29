@@ -125,23 +125,6 @@ export default function Problems() {
     setFilteredQuestions(result)
   }, [filters, questions])
 
-  const handleAttemptQuestion = async (questionId: string) => {
-    if (!session) return
-    
-    try {
-      // Update user's attempted questions
-      const { error } = await supabase.rpc('add_attempted_question', {
-        user_email: session.user.email,
-        question_id: questionId
-      })
-
-      if (error) throw error
-      
-      setAttemptedIds(prev => [...prev, questionId])
-    } catch (error) {
-      console.error('Error updating attempt:', error)
-    }
-  }
 
   const uniqueChapters = Array.from(new Set(
     questions
@@ -301,12 +284,6 @@ export default function Problems() {
                   </Button>
               </div>
               
-              {selectedQuestion.solution && (
-                <div className="prose max-w-none pt-4 border-t">
-                  <h3 className="text-lg font-medium">Solution:</h3>
-                  <p>{selectedQuestion.solution}</p>
-                </div>
-              )}
             </div>
           )}
         </DialogContent>

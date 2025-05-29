@@ -85,7 +85,7 @@ export default function ProblemDetail() {
     // }
     try {
         // Update user's attempted questions
-        const { data, error } = await supabase.rpc('update_user_stats', {
+        const {error } = await supabase.rpc('update_user_stats', {
                 user_email: session?.user.email,
                 question_id: question.id,
                 is_correct: selectedOption === question.correct_answer,
