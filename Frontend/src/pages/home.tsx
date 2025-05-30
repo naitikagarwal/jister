@@ -104,7 +104,7 @@ export default function HomePage() {
           </p>
           
           <div className="max-w-md mx-auto">
-            <div className="flex flex-col sm:flex-row gap-2">
+            {/* <div className="flex flex-col sm:flex-row gap-2">
               <Input 
                 type="email" 
                 placeholder="Enter your email" 
@@ -113,7 +113,7 @@ export default function HomePage() {
               <Button className="bg-white text-yellow-600 hover:bg-yellow-50">
                 Get Started
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

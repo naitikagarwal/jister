@@ -164,7 +164,7 @@ export default function Navbar() {
                     <div className="flex items-center mb-6">
                       {/* Avatar  */}
                       {user ? (
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-2" onClick={() => navigate('/dashboard')}>
                           <Avatar className="h-10 w-10 ">
                             <AvatarImage src={user.user_metadata?.avatar_url} alt={user.email} />
                             <AvatarFallback>
