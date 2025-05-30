@@ -1,7 +1,7 @@
 import { Rocket, BookOpen, BarChart2, Users, Award, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 
 export default function HomePage() {
   return (

@@ -201,11 +201,11 @@ export function StudentDashboard({ userId }: { userId: string }) {
             <div className="mt-4 flex items-center justify-between text-sm">
               <div className="flex items-center">
                 <div className="mr-2 h-4 w-4 rounded-sm bg-gray-100" />
-                <span>Less</span>
+                <span>Not active</span>
               </div>
               <div className="flex items-center">
                 <div className="mr-2 h-4 w-4 rounded-sm bg-green-500" />
-                <span>More</span>
+                <span>Active</span>
               </div>
             </div>
           </CardContent>
