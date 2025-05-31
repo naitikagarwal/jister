@@ -1,9 +1,12 @@
 import { Rocket, BookOpen, BarChart2, Users, Award, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { useNavigate } from 'react-router-dom'
+
 // import { Input } from "@/components/ui/input";
 
 export default function HomePage() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -17,7 +20,7 @@ export default function HomePage() {
           </p>
           
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-yellow-500 hover:bg-yellow-600 cursor-pointer" onClick={() => window.location.href = '/problemset'}>
+            <Button size="lg" className="bg-yellow-500 hover:bg-yellow-600 cursor-pointer" onClick={() => navigate("/dashboard")}>
               Start Practicing
               <Rocket className="ml-2 h-4 w-4" />
             </Button>
