@@ -28,6 +28,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/AuthProvider'
 import { useNavigate } from 'react-router-dom'
+import Latex from 'react-latex-next';
+import 'katex/dist/katex.min.css';
 
 type Question = {
   id: string
@@ -57,6 +59,9 @@ export default function Problems() {
     chapter: '',
     search: '',
   })
+    const preprocessLatex = (text: string) => {
+    return text.replace(/(\d+) \* 10 \^ - (\d+)/g, '$1 \\times 10^{-$2}');
+  };
 
   // Fetch questions and user attempts
   useEffect(() => {
@@ -216,7 +221,8 @@ export default function Problems() {
                   <TableCell>{question.subject}</TableCell>
                   <TableCell>{question.chapter || '-'}</TableCell>
                   <TableCell className="max-w-xs truncate">
-                    {question.question.substring(0, 100)}...
+                  <Latex>{preprocessLatex(question.question.substring(0, 100))}...</Latex>
+                    
                   </TableCell>
                   <TableCell>
                     <span className={`px-2 py-1 rounded-full text-xs ${
@@ -255,7 +261,7 @@ export default function Problems() {
             <div className="space-y-4">
               <div className="prose max-w-none">
                 <h3 className="text-lg font-medium">Question:</h3>
-                <p>{selectedQuestion.question}</p>
+                <p><Latex>{preprocessLatex(selectedQuestion.question)}</Latex></p>
                 
                 {/* <h3 className="text-lg font-medium mt-4">Options:</h3>
                 <ul className="space-y-2">

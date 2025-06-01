@@ -20,7 +20,7 @@ export default function HomePage() {
           </p>
           
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-yellow-500 hover:bg-yellow-600 cursor-pointer" onClick={() => navigate("/dashboard")}>
+            <Button size="lg" className="bg-yellow-500 hover:bg-yellow-600 cursor-pointer" onClick={() => navigate("/problemset")}>
               Start Practicing
               <Rocket className="ml-2 h-4 w-4" />
             </Button>

@@ -10,7 +10,8 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Icons } from '@/components/ui/icons'
 import { Badge } from '@/components/ui/badge'
 import { useAuth } from '@/AuthProvider';
-
+import Latex from 'react-latex-next';
+import 'katex/dist/katex.min.css';
 
 export default function ProblemDetail() {
   const { id } = useParams()
@@ -22,6 +23,9 @@ export default function ProblemDetail() {
   const [submitted, setSubmitted] = useState(false)
   const [timeElapsed, setTimeElapsed] = useState(0)
   const [timerActive, setTimerActive] = useState(false)
+  const preprocessLatex = (text: string) => {
+    return text.replace(/(\d+) \* 10 \^ - (\d+)/g, '$1 \\times 10^{-$2}');
+  };
 
   // Timer effect
   useEffect(() => {
@@ -213,7 +217,7 @@ const handleSubmit = async () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-xl">{question.question}</CardTitle>
+          <CardTitle className="text-xl"><Latex>{preprocessLatex(question.question)}</Latex></CardTitle>
         </CardHeader>
         <CardContent>
           <RadioGroup 
