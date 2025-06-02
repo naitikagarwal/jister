@@ -265,8 +265,8 @@ const handleSubmit = async () => {
                 <div className="mb-4">
                   <h3 className="font-medium mb-2">Explanation:</h3>
                   <p className="text-sm text-muted-foreground">
-                    {question.solutions
-                      ? <Latex>{preprocessLatex(question.solutions)}</Latex>
+                    {question.solution
+                      ? <Latex>{preprocessLatex(question.solution)}</Latex>
                       : 'No explanation available.'}
                   </p>
                 </div>
