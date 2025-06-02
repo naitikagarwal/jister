@@ -249,7 +249,8 @@ const handleSubmit = async () => {
                       : ''
                   }`}
                 >
-                  {String(value)}
+                  
+                  <Latex>{preprocessLatex(value as string)}</Latex>
                 </Label>
               </div>
             ))}
