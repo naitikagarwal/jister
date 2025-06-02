@@ -265,7 +265,9 @@ const handleSubmit = async () => {
                 <div className="mb-4">
                   <h3 className="font-medium mb-2">Explanation:</h3>
                   <p className="text-sm text-muted-foreground">
-                    {question.solution || 'No explanation available.'}
+                    {question.solutions
+                      ? <Latex>{preprocessLatex(question.solutions)}</Latex>
+                      : 'No explanation available.'}
                   </p>
                 </div>
                 <div className="flex gap-2">
