@@ -186,6 +186,19 @@ export default function Navbar() {
                     </div>
 
                     <div className="space-y-1">
+                      <Button
+                          variant="ghost"
+                          className={`w-full justify-start pl-2 font-medium ${location.pathname === '/dashboard'
+                              ? 'text-yellow-600 bg-yellow-50 hover:bg-yellow-100'
+                              : 'text-gray-700 hover:bg-gray-100'
+                            }`}
+                          onClick={() => navigate('/dashboard')}
+                        >
+                          Dashboard
+                          {location.pathname === '/dashboard' && (
+                            <span className="absolute left-0 h-full w-1 bg-yellow-500 rounded-r-md" />
+                          )}
+                        </Button>
                       {navLinks.map((item) => (
                         <Button
                           key={item.path}
